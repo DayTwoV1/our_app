@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Tableau de bord</h2>
+<h3>Événements disponibles</h3>
+<ul>
+    {% for event in events %}
+    <li>{{ event.title }} - <a href="{{ url_for('reserver', event_id=event.id) }}">Réserver</a></li>
+    {% endfor %}
+</ul>
+
+<h3>Mes Réservations</h3>
+<ul>
+    {% for reservation in current_user.reservations %}
+    <li>
+        {{ reservation.event.title }} - {{ reservation.status }}
+        {% if reservation.status != 'annulé' %}
+        <a href="{{ url_for('annuler_reservation', reservation_id=reservation.id) }}">Annuler</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
